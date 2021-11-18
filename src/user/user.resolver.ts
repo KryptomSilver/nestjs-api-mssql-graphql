@@ -22,4 +22,11 @@ export class UserResolver {
     const user = await this.UserService.getUser(idUser);
     return user;
   }
+  @Mutation(() => String, { nullable: true })
+  async deleteUser(@Args('idUser', { type: () => Int }) idUser: number) {
+    const user = await this.UserService.getUser(idUser);
+    if (!user) return 'User not found';
+    this.UserService.deleteUser(idUser);
+    return 'User delete';
+  }
 }
