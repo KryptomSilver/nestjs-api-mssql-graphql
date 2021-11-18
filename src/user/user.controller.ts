@@ -7,6 +7,7 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
 import { UserDTO } from './dto/user.dto';
 import { IUser } from './interface/user.interface';
@@ -28,6 +29,7 @@ export class UserController {
     return user;
   }
   @Post()
+  @HttpCode(201)
   async createUser(@Body() userDTO: UserDTO): Promise<IUser> {
     const userID = await this.UserService.createUser(userDTO);
     const user = await this.getUser(userID);
@@ -39,5 +41,13 @@ export class UserController {
     const user = await this.UserService.getUser(userID);
     if (!user) throw new NotFoundException('User not found');
     await this.UserService.deleteUser(userID);
+  }
+  @Put(':userID')
+  async updateUser(@Param('userID') userID, @Body() userDTO: UserDTO) {
+    const user = await this.UserService.getUser(userID);
+    if (!user) throw new NotFoundException('User not found');
+    await this.UserService.updateUser(userID, userDTO);
+    const userUpdate = await this.UserService.getUser(userID);
+    return userUpdate;
   }
 }

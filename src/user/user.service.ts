@@ -23,8 +23,12 @@ export class UserService {
     const userID = identifiers[0].id;
     return userID;
   }
-  async deleteUser(id: number): Promise<any> {
+  async deleteUser(id: number): Promise<Object> {
     const result = await this.usersRepository.delete(id);
+    return result;
+  }
+  async updateUser(id: number, userDTO: UserDTO): Promise<Object> {
+    const result = await this.usersRepository.update(id, userDTO);
     return result;
   }
 }
