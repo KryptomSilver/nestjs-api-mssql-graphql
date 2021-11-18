@@ -18,7 +18,11 @@ export class UserService {
     return await this.usersRepository.findOne(id);
   }
   async createUser(userDTO: UserDTO): Promise<number> {
-    const result = await this.usersRepository.insert(userDTO);
+    const result = await this.usersRepository.insert({
+      firstName: userDTO.firstName,
+      lastName: userDTO.lastName,
+      age: userDTO.age,
+    });
     const { identifiers } = result;
     const userID = identifiers[0].id;
     return userID;
@@ -28,7 +32,11 @@ export class UserService {
     return result;
   }
   async updateUser(id: number, userDTO: UserDTO): Promise<Object> {
-    const result = await this.usersRepository.update(id, userDTO);
+    const result = await this.usersRepository.update(id, {
+      firstName: userDTO.firstName,
+      lastName: userDTO.lastName,
+      age: userDTO.age,
+    });
     return result;
   }
 }
