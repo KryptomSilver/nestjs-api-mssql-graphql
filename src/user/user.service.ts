@@ -23,4 +23,8 @@ export class UserService {
     const userID = identifiers[0].id;
     return userID;
   }
+  async deleteUser(id: number): Promise<any> {
+    const result = await this.usersRepository.delete(id);
+    return result;
+  }
 }

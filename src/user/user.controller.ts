@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
   Post,
@@ -22,7 +24,7 @@ export class UserController {
   async getUser(@Param('userID') userID): Promise<IUser> {
     console.log();
     const user = await this.UserService.getUser(parseInt(userID));
-    if (!user) throw new NotFoundException('Product not found');
+    if (!user) throw new NotFoundException('User not found');
     return user;
   }
   @Post()
@@ -31,5 +33,11 @@ export class UserController {
     const user = await this.getUser(userID);
     return user;
   }
-  
+  @Delete(':userID')
+  @HttpCode(204)
+  async deleteUser(@Param('userID') userID) {
+    const user = await this.UserService.getUser(userID);
+    if (!user) throw new NotFoundException('User not found');
+    await this.UserService.deleteUser(userID);
+  }
 }
