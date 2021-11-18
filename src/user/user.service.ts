@@ -10,4 +10,7 @@ export class UserService {
     @InjectRepository(User)
     private usersRepository: Repository<IUser>,
   ) {}
+  getUsers(): Promise<IUser[]> {
+    return this.usersRepository.find();
+  }
 }
