@@ -1,6 +1,6 @@
 import { Resolver, Query, Args, Int, Mutation } from '@nestjs/graphql';
 import { UserInput } from './graphql/user.input';
-import { UserType } from './graphql/user.type';
+import { ResponseType, UserType } from './graphql/user.type';
 import { UserService } from './user.service';
 
 @Resolver(() => UserType)
@@ -28,5 +28,16 @@ export class UserResolver {
     if (!user) return 'User not found';
     this.UserService.deleteUser(idUser);
     return 'User delete';
+  }
+  @Mutation(() => ResponseType)
+  async updateUser(
+    @Args('user') userDTO: UserInput,
+    @Args('idUser', { type: () => Int }) idUser: number,
+  ): Promise<ResponseType> {
+    const user = await this.UserService.getUser(idUser);
+    if (!user) return { msg: 'User not found', user: null };
+    await this.UserService.updateUser(idUser, userDTO);
+    const updateUser = await this.UserService.getUser(idUser);
+    return { msg: 'Updated user', user: updateUser };
   }
 }
