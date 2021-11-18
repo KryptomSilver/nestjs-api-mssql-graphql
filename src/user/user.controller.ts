@@ -1,9 +1,12 @@
 import {
+  Body,
   Controller,
   Get,
   NotFoundException,
   Param,
+  Post,
 } from '@nestjs/common';
+import { UserDTO } from './dto/user.dto';
 import { IUser } from './interface/user.interface';
 import { UserService } from './user.service';
 
@@ -22,4 +25,11 @@ export class UserController {
     if (!user) throw new NotFoundException('Product not found');
     return user;
   }
+  @Post()
+  async createUser(@Body() userDTO: UserDTO): Promise<IUser> {
+    const userID = await this.UserService.createUser(userDTO);
+    const user = await this.getUser(userID);
+    return user;
+  }
+  
 }
