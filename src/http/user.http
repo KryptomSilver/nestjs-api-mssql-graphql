@@ -1,0 +1,24 @@
+### Create User
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "firstName":"",
+  "lastName": "",
+  "age": 23
+}
+### Get Users
+GET http://localhost:3000/user
+### Get User
+GET http://localhost:3000/user/<id>
+### Delete User
+DELETE http://localhost:3000/user/<id>
+### Update User
+PUT http://localhost:3000/user/<id>
+Content-Type: application/json
+
+{
+  "firstName":"",
+  "lastName": "",
+  "age": 23
+}
